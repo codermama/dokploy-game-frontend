@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,154 +10,374 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* ─── Reset & Base ─────────────────────── */
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         :root {
             --green-light: #7ec850;
             --green-dark: #5a9e32;
-            --sky-top: #87ceeb;
+            --sky-top: #ff9a9e;
+            /* Sunset vibe */
+            --sky-middle: #fecfef;
             --sky-bottom: #e0f4ff;
             --brown-light: #c8956c;
             --brown-dark: #8b5e3c;
             --brown-hole: #3d2417;
             --gold: #ffd700;
+            --gold-glow: #ffb142;
             --red: #ff4757;
             --purple: #a855f7;
             --pink: #ec4899;
-            --card-bg: rgba(255,255,255,0.85);
-            --shadow: 0 8px 32px rgba(0,0,0,0.12);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
         }
 
         body {
             font-family: 'Fredoka', sans-serif;
-            background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 40%, var(--green-light) 40%, var(--green-dark) 100%);
+            background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-middle) 30%, var(--sky-bottom) 50%, var(--green-light) 50%, var(--green-dark) 100%);
             min-height: 100vh;
             overflow-x: hidden;
             color: #2d3436;
         }
 
-        /* ─── Clouds ─────────────────────── */
-        .clouds {
+        /* ─── Background Elements ───────────────── */
+        .sky-elements {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 40vh;
+            height: 50vh;
             pointer-events: none;
-            overflow: hidden;
             z-index: 0;
+            overflow: hidden;
         }
+
         .cloud {
             position: absolute;
             background: white;
             border-radius: 50px;
-            opacity: 0.8;
+            opacity: 0.9;
+            box-shadow: inset -2px -5px 10px rgba(0, 0, 0, 0.05);
         }
-        .cloud::before, .cloud::after {
+
+        .cloud::before,
+        .cloud::after {
             content: '';
             position: absolute;
             background: white;
             border-radius: 50%;
         }
-        .cloud-1 { width: 120px; height: 40px; top: 8%; animation: float-cloud 25s linear infinite; }
-        .cloud-1::before { width: 50px; height: 50px; top: -25px; left: 20px; }
-        .cloud-1::after { width: 70px; height: 60px; top: -30px; left: 50px; }
-        .cloud-2 { width: 160px; height: 50px; top: 15%; animation: float-cloud 35s linear infinite 5s; }
-        .cloud-2::before { width: 60px; height: 60px; top: -30px; left: 30px; }
-        .cloud-2::after { width: 80px; height: 70px; top: -35px; left: 70px; }
-        .cloud-3 { width: 100px; height: 35px; top: 5%; animation: float-cloud 30s linear infinite 12s; }
-        .cloud-3::before { width: 45px; height: 45px; top: -22px; left: 15px; }
-        .cloud-3::after { width: 55px; height: 50px; top: -25px; left: 40px; }
+
+        .cloud-1 {
+            width: 140px;
+            height: 50px;
+            top: 12%;
+            animation: float-cloud 35s linear infinite;
+        }
+
+        .cloud-1::before {
+            width: 60px;
+            height: 60px;
+            top: -30px;
+            left: 25px;
+        }
+
+        .cloud-1::after {
+            width: 80px;
+            height: 80px;
+            top: -40px;
+            left: 60px;
+        }
+
+        .cloud-2 {
+            width: 180px;
+            height: 60px;
+            top: 20%;
+            animation: float-cloud 45s linear infinite 10s;
+        }
+
+        .cloud-2::before {
+            width: 70px;
+            height: 70px;
+            top: -35px;
+            left: 35px;
+        }
+
+        .cloud-2::after {
+            width: 90px;
+            height: 90px;
+            top: -45px;
+            left: 80px;
+        }
+
+        .cloud-3 {
+            width: 120px;
+            height: 40px;
+            top: 8%;
+            animation: float-cloud 28s linear infinite 5s;
+        }
+
+        .cloud-3::before {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            left: 20px;
+        }
+
+        .cloud-3::after {
+            width: 65px;
+            height: 60px;
+            top: -30px;
+            left: 50px;
+        }
+
         @keyframes float-cloud {
-            from { left: -200px; }
-            to { left: 110%; }
+            from {
+                left: -200px;
+            }
+
+            to {
+                left: 110%;
+            }
+        }
+
+        .sun {
+            position: absolute;
+            top: 5%;
+            right: 10%;
+            width: 80px;
+            height: 80px;
+            background: #ffda79;
+            border-radius: 50%;
+            box-shadow: 0 0 40px #ffda79, 0 0 80px #ffda79;
+            animation: pulse-sun 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse-sun {
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.05);
+            }
         }
 
         /* ─── Layout ─────────────────────── */
-        .container {
-            max-width: 700px;
+        .layout-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px 15px;
             position: relative;
             z-index: 1;
+            flex-wrap: wrap;
+        }
+
+        .side-panel {
+            flex: 1;
+            min-width: 250px;
+            max-width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .main-panel {
+            flex: 2;
+            min-width: 300px;
+            max-width: 650px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         /* ─── Header ─────────────────────── */
         .header {
             text-align: center;
             margin-bottom: 20px;
+            animation: bounce-in 1s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
+
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
         .header h1 {
-            font-size: 2.8rem;
+            font-size: 3.5rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--brown-dark), var(--red), var(--purple));
+            background: linear-gradient(to right, #ff4757, #ff9a9e, #a855f7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: none;
-            filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.1));
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
             line-height: 1.2;
+            letter-spacing: 2px;
         }
+
         .header .subtitle {
-            font-size: 1rem;
-            color: #636e72;
-            margin-top: 4px;
+            font-size: 1.1rem;
+            color: white;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+            margin-top: 6px;
+            font-weight: 500;
         }
 
         /* ─── Status Bar ─────────────────── */
         .status-bar {
             display: flex;
             justify-content: center;
-            gap: 16px;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin-bottom: 24px;
             flex-wrap: wrap;
+            width: 100%;
         }
+
         .status-card {
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 12px 20px;
-            box-shadow: var(--shadow);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 12px 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
             text-align: center;
+            flex: 1;
             min-width: 100px;
-            border: 2px solid rgba(255,255,255,0.6);
-            transition: transform 0.2s;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
         }
-        .status-card:hover { transform: translateY(-2px); }
-        .status-card .label { font-size: 0.75rem; color: #636e72; text-transform: uppercase; letter-spacing: 1px; }
-        .status-card .value { font-size: 1.8rem; font-weight: 700; margin-top: 2px; }
-        .status-card .value.score-value { color: var(--gold); text-shadow: 1px 1px 0 #b8860b; }
-        .status-card .value.time-value { color: var(--red); }
-        .status-card .value.streak-value { color: var(--purple); }
-        .status-card .value.combo-value { color: var(--pink); }
+
+        .status-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .status-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            transform: rotate(45deg) translateY(100%);
+            transition: transform 0.6s;
+        }
+
+        .status-card:hover::before {
+            transform: rotate(45deg) translateY(-100%);
+        }
+
+        .status-card .label {
+            font-size: 0.8rem;
+            color: #636e72;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-card .value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-top: 4px;
+            line-height: 1;
+        }
+
+        .status-card .value.score-value {
+            color: #f39c12;
+            text-shadow: 2px 2px 0px rgba(243, 156, 18, 0.3);
+        }
+
+        .status-card .value.time-value {
+            color: var(--red);
+        }
+
+        .status-card .value.streak-value {
+            color: var(--purple);
+        }
+
+        .time-warning {
+            animation: pulse-red 0.5s infinite alternate !important;
+        }
+
+        @keyframes pulse-red {
+            from {
+                color: var(--red);
+                transform: scale(1);
+            }
+
+            to {
+                color: #c0392b;
+                transform: scale(1.1);
+            }
+        }
 
         /* ─── Connection Badge ───────────── */
         .connection-badge {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            margin-bottom: 16px;
-            font-size: 0.8rem;
-            color: #636e72;
+            gap: 8px;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            color: white;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 6px 16px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
         }
+
         .conn-dot {
-            width: 8px; height: 8px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background: #ccc;
-            transition: background 0.3s;
+            transition: background 0.3s, box-shadow 0.3s;
         }
-        .conn-dot.online { background: #00b894; box-shadow: 0 0 6px #00b894; }
-        .conn-dot.offline { background: var(--red); box-shadow: 0 0 6px var(--red); }
+
+        .conn-dot.online {
+            background: #00e676;
+            box-shadow: 0 0 10px #00e676;
+        }
+
+        .conn-dot.offline {
+            background: #ff1744;
+            box-shadow: 0 0 10px #ff1744;
+        }
 
         /* ─── Game Board ─────────────────── */
         .game-board {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 16px;
+            width: 100%;
             max-width: 450px;
-            margin: 0 auto 24px;
+            margin: 0 auto 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
+
         .hole {
             position: relative;
             width: 100%;
@@ -164,28 +385,69 @@
             cursor: pointer;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
+            transition: transform 0.1s;
         }
+
+        .hole:active {
+            transform: scale(0.95);
+        }
+
         .hole-ground {
             position: absolute;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 110%;
-            height: 40%;
-            background: radial-gradient(ellipse, var(--brown-hole) 50%, transparent 70%);
+            width: 115%;
+            height: 45%;
+            background: radial-gradient(ellipse at center, var(--brown-hole) 40%, transparent 70%);
             border-radius: 50%;
             z-index: 2;
         }
+
         .hole-front {
             position: absolute;
-            bottom: 0;
+            bottom: -5px;
             left: 50%;
             transform: translateX(-50%);
-            width: 110%;
-            height: 20%;
-            background: linear-gradient(to bottom, var(--green-dark), var(--green-light));
+            width: 120%;
+            height: 30%;
+            background: linear-gradient(135deg, var(--green-light), var(--green-dark));
             border-radius: 50%;
             z-index: 4;
+            box-shadow: inset 0 5px 10px rgba(255, 255, 255, 0.3), 0 -2px 5px rgba(0, 0, 0, 0.2);
+            border-top: 3px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* ─── Grass/Flowers ──────────────── */
+        .flower {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: white;
+            border-radius: 50%;
+            z-index: 5;
+            bottom: 10%;
+        }
+
+        .flower::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #f1c40f;
+            border-radius: 50%;
+            top: 4px;
+            left: 4px;
+        }
+
+        .flower.f1 {
+            left: -5%;
+            transform: rotate(-15deg);
+        }
+
+        .flower.f2 {
+            right: 0%;
+            transform: rotate(20deg);
         }
 
         /* ─── Mole ─────────────────────── */
@@ -194,135 +456,221 @@
             bottom: 15%;
             left: 50%;
             transform: translateX(-50%) translateY(100%);
-            width: 65%;
-            height: 65%;
+            width: 70%;
+            height: 75%;
             z-index: 3;
-            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
             pointer-events: none;
+            filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.3));
         }
+
         .mole.show {
-            transform: translateX(-50%) translateY(10%);
+            transform: translateX(-50%) translateY(5%);
         }
+
         .mole.hit {
-            transform: translateX(-50%) translateY(10%) scale(0.8);
+            transform: translateX(-50%) translateY(15%) scale(0.85);
+            filter: grayscale(0.5);
         }
+
         .mole-body {
             width: 100%;
             height: 100%;
             position: relative;
         }
+
         .mole-head {
-            width: 80%;
-            height: 70%;
-            background: var(--brown-light);
+            width: 85%;
+            height: 75%;
+            background: linear-gradient(135deg, var(--brown-light), var(--brown-dark));
             border-radius: 50% 50% 45% 45%;
             margin: 0 auto;
             position: relative;
-            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.15);
+            box-shadow: inset -5px -5px 15px rgba(0, 0, 0, 0.3), inset 5px 5px 10px rgba(255, 255, 255, 0.4);
         }
+
+        /* Details */
+        .mole-ear {
+            width: 30%;
+            height: 30%;
+            background: var(--brown-dark);
+            border-radius: 50%;
+            position: absolute;
+            top: -5%;
+            z-index: -1;
+        }
+
+        .mole-ear.left {
+            left: 5%;
+        }
+
+        .mole-ear.right {
+            right: 5%;
+        }
+
         .mole-eye {
-            width: 18%;
-            height: 22%;
+            width: 20%;
+            height: 24%;
             background: white;
             border-radius: 50%;
             position: absolute;
-            top: 32%;
-            box-shadow: inset 2px 2px 3px rgba(0,0,0,0.1);
+            top: 30%;
+            box-shadow: inset 1px 2px 4px rgba(0, 0, 0, 0.2);
+            transition: height 0.1s;
         }
-        .mole-eye.left { left: 20%; }
-        .mole-eye.right { right: 20%; }
+
+        .mole-eye.left {
+            left: 20%;
+        }
+
+        .mole-eye.right {
+            right: 20%;
+        }
+
         .mole-eye::after {
             content: '';
-            width: 55%;
-            height: 55%;
+            width: 50%;
+            height: 50%;
             background: #2d3436;
             border-radius: 50%;
             position: absolute;
             top: 25%;
             left: 25%;
+            box-shadow: 1px 1px 0px white;
         }
+
         .mole-nose {
-            width: 22%;
-            height: 16%;
+            width: 24%;
+            height: 18%;
             background: #e17055;
             border-radius: 50%;
             position: absolute;
-            bottom: 28%;
+            bottom: 26%;
             left: 50%;
             transform: translateX(-50%);
+            box-shadow: inset -2px -2px 4px rgba(0, 0, 0, 0.2), inset 2px 2px 2px rgba(255, 255, 255, 0.5);
         }
+
         .mole-cheek {
-            width: 16%;
-            height: 12%;
-            background: rgba(255,150,150,0.5);
+            width: 18%;
+            height: 14%;
+            background: rgba(255, 100, 100, 0.6);
             border-radius: 50%;
             position: absolute;
             bottom: 25%;
+            filter: blur(1px);
         }
-        .mole-cheek.left { left: 8%; }
-        .mole-cheek.right { right: 8%; }
+
+        .mole-cheek.left {
+            left: 8%;
+        }
+
+        .mole-cheek.right {
+            right: 8%;
+        }
+
         .mole-mouth {
-            width: 30%;
-            height: 8%;
-            border-bottom: 3px solid #8b5e3c;
+            width: 25%;
+            height: 12%;
+            background: #8b5e3c;
             border-radius: 0 0 50% 50%;
             position: absolute;
-            bottom: 18%;
+            bottom: 12%;
             left: 50%;
             transform: translateX(-50%);
+            transition: all 0.2s;
         }
 
-        /* Mole hit state */
+        /* Mole States */
+        .mole.hit .mole-eye {
+            height: 8%;
+            top: 38%;
+        }
+
         .mole.hit .mole-eye::after {
-            content: '×';
-            background: none;
-            color: #2d3436;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-        .mole.hit .mole-mouth {
-            border-bottom: none;
-            border-top: 3px solid #8b5e3c;
-            border-radius: 50% 50% 0 0;
-            bottom: 20%;
+            display: none;
         }
 
-        /* ─── Hit Effect ─────────────────── */
+        .mole.hit .mole-mouth {
+            height: 20%;
+            border-radius: 50%;
+            bottom: 8%;
+            background: #2d3436;
+        }
+
+        /* Golden Mole (Special) */
+        .mole.golden .mole-head {
+            background: linear-gradient(135deg, #fff3cd, var(--gold), #d4af37);
+            box-shadow: 0 0 15px var(--gold), inset -5px -5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .mole.golden .mole-ear {
+            background: #d4af37;
+        }
+
+        .mole.golden .mole-nose {
+            background: #ff4757;
+        }
+
+        /* ─── Effects ─────────────────────── */
         .hit-effect {
             position: absolute;
-            top: 10%;
+            top: 0;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--gold);
-            text-shadow: 1px 1px 0 #b8860b;
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 4px 0 #d35400, 0 0 10px #f39c12;
             z-index: 10;
             pointer-events: none;
-            animation: hit-float 0.8s ease-out forwards;
-        }
-        @keyframes hit-float {
-            0% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
-            100% { opacity: 0; transform: translateX(-50%) translateY(-40px) scale(1.3); }
+            animation: hit-float 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
-        /* ─── Stars burst ─────────────────── */
+        .hit-effect.golden-hit {
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 0 4px 0 #c0392b, 0 0 15px var(--gold);
+        }
+
+        @keyframes hit-float {
+            0% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(0.5) rotate(-10deg);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(-30px) scale(1.2) rotate(5deg);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-50px) scale(1) rotate(0deg);
+            }
+        }
+
         .star-burst {
             position: absolute;
             z-index: 10;
             pointer-events: none;
         }
+
         .star {
             position: absolute;
-            font-size: 1rem;
+            font-size: 1.2rem;
             animation: star-fly 0.6s ease-out forwards;
         }
+
         @keyframes star-fly {
-            0% { opacity: 1; transform: translate(0, 0) scale(1); }
-            100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.3); }
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0.2) rotate(180deg);
+            }
         }
 
         /* ─── Buttons ─────────────────────── */
@@ -330,219 +678,558 @@
             text-align: center;
             margin-bottom: 24px;
         }
+
         .btn {
             font-family: 'Fredoka', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 600;
-            padding: 14px 40px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            padding: 16px 48px;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        .btn:active { transform: scale(0.95); }
-        .btn-start {
-            background: linear-gradient(135deg, #00b894, #00cec9);
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
             color: white;
-        }
-        .btn-start:hover { box-shadow: 0 6px 20px rgba(0,184,148,0.4); transform: translateY(-2px); }
-        .btn-start:disabled {
-            background: #b2bec3;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 0 rgba(0, 0, 0, 0.15), 0 15px 20px rgba(0, 0, 0, 0.2);
         }
 
-        /* ─── Leaderboard ─────────────────── */
-        .leaderboard {
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: skewX(-20deg);
+            transition: 0.5s;
+        }
+
+        .btn:hover::after {
+            left: 150%;
+        }
+
+        .btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15), 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            border: 3px solid #55efc4;
+            text-shadow: 1px 2px 0 #00896b;
+        }
+
+        .btn-start:disabled {
+            background: #b2bec3;
+            border-color: #dfe6e9;
+            color: #636e72;
+            text-shadow: none;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* ─── Panels (Cards) ──────────────── */
+        .panel {
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            border-radius: 24px;
             padding: 24px;
             box-shadow: var(--shadow);
-            border: 2px solid rgba(255,255,255,0.6);
-        }
-        .leaderboard h2 {
-            text-align: center;
-            font-size: 1.5rem;
-            margin-bottom: 16px;
-            color: var(--brown-dark);
-        }
-        .leaderboard table {
+            border: 2px solid rgba(255, 255, 255, 0.7);
             width: 100%;
-            border-collapse: collapse;
+            position: relative;
+            overflow: hidden;
         }
-        .leaderboard th {
-            padding: 8px 12px;
-            text-align: left;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+
+        .panel h2 {
+            font-size: 1.4rem;
+            color: var(--brown-dark);
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Dashboard Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-item .label {
+            font-size: 0.8rem;
             color: #636e72;
-            border-bottom: 2px solid #dfe6e9;
+            margin-bottom: 4px;
         }
-        .leaderboard td {
-            padding: 10px 12px;
-            font-size: 0.95rem;
-            border-bottom: 1px solid #f0f0f0;
+
+        .stat-item .val {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2d3436;
         }
-        .leaderboard tr:last-child td { border-bottom: none; }
-        .leaderboard .rank-1 td { background: rgba(255,215,0,0.1); }
-        .leaderboard .rank-2 td { background: rgba(192,192,192,0.1); }
-        .leaderboard .rank-3 td { background: rgba(205,127,50,0.1); }
-        .rank-medal { font-size: 1.2rem; }
+
+        /* Leaderboard & Feed Lists */
+        .data-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        .data-row:hover {
+            transform: translateX(5px);
+        }
+
+        .rank-badge {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            background: #b2bec3;
+            margin-right: 12px;
+            font-size: 0.9rem;
+        }
+
+        .rank-1 .rank-badge {
+            background: linear-gradient(135deg, #ffd700, #f39c12);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            font-size: 1.2rem;
+        }
+
+        .rank-2 .rank-badge {
+            background: linear-gradient(135deg, #e0e0e0, #95a5a6);
+            font-size: 1.1rem;
+        }
+
+        .rank-3 .rank-badge {
+            background: linear-gradient(135deg, #d35400, #e67e22);
+            font-size: 1rem;
+        }
+
+        .row-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .row-name {
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: #2d3436;
+        }
+
+        .row-sub {
+            font-size: 0.75rem;
+            color: #a4b0be;
+            margin-top: 2px;
+        }
+
+        .row-score {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--purple);
+        }
+
+        .loading-text {
+            text-align: center;
+            color: #b2bec3;
+            padding: 20px 0;
+            font-style: italic;
+        }
 
         /* ─── Game Over Modal ─────────────── */
         .modal-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
             z-index: 100;
             justify-content: center;
             align-items: center;
         }
-        .modal-overlay.show { display: flex; }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
         .modal {
             background: white;
-            border-radius: 24px;
-            padding: 36px;
-            max-width: 400px;
-            width: 90%;
+            border-radius: 30px;
+            padding: 40px;
+            margin: 20px;
+            max-width: 450px;
+            width: 100%;
             text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: modal-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            animation: modal-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+            border: 4px solid white;
         }
+
         @keyframes modal-pop {
-            0% { transform: scale(0.5); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+            0% {
+                transform: scale(0.5) translateY(50px) rotate(-5deg);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1) translateY(0) rotate(0deg);
+                opacity: 1;
+            }
         }
-        .modal h2 { font-size: 2rem; margin-bottom: 8px; }
-        .modal .final-score { font-size: 3.5rem; font-weight: 700; color: var(--gold); text-shadow: 2px 2px 0 #b8860b; }
-        .modal .final-message { color: #636e72; margin: 12px 0 20px; font-size: 1rem; }
+
+        .modal::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.3) 0%, transparent 60%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .modal h2 {
+            font-size: 2.2rem;
+            color: var(--purple);
+            margin-bottom: 10px;
+        }
+
+        .modal .final-score {
+            font-size: 4.5rem;
+            font-weight: 800;
+            color: #f39c12;
+            text-shadow: 3px 3px 0 #d35400;
+            line-height: 1;
+            margin: 15px 0;
+        }
+
+        .modal .final-message {
+            color: #636e72;
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
         .modal input {
             font-family: 'Fredoka', sans-serif;
-            font-size: 1rem;
-            padding: 12px 16px;
-            border: 2px solid #dfe6e9;
-            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 16px 20px;
+            border: 3px solid #dfe6e9;
+            border-radius: 16px;
             width: 100%;
             text-align: center;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             outline: none;
-            transition: border-color 0.2s;
+            transition: all 0.3s;
+            background: #f8f9fa;
         }
-        .modal input:focus { border-color: var(--purple); }
+
+        .modal input:focus {
+            border-color: var(--pink);
+            background: white;
+            transform: scale(1.02);
+        }
+
         .modal .btn-submit {
             background: linear-gradient(135deg, var(--purple), var(--pink));
-            color: white;
             width: 100%;
+            border: 3px solid #d291bc;
+            margin-bottom: 12px;
         }
-        .modal .btn-submit:hover { box-shadow: 0 6px 20px rgba(168,85,247,0.4); transform: translateY(-2px); }
+
         .modal .btn-skip {
-            background: none;
-            color: #b2bec3;
+            background: #f1f2f6;
+            color: #a4b0be;
             box-shadow: none;
-            font-size: 0.9rem;
-            margin-top: 8px;
+            border: none;
+            font-size: 1rem;
+            padding: 12px;
+            width: 100%;
+            border-radius: 12px;
+        }
+
+        .modal .btn-skip:hover {
+            background: #eccc68;
+            color: white;
+        }
+
+        /* ─── Confetti ───────────────────── */
+        .confetti-container {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 50;
+            border-radius: 30px;
+            display: none;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: red;
+            animation: fall 3s linear forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-50px) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(500px) rotate(720deg);
+                opacity: 0;
+            }
         }
 
         /* ─── Footer ─────────────────────── */
         .footer {
             text-align: center;
-            padding: 20px;
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.7);
+            padding: 30px 20px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            width: 100%;
         }
-        .footer a { color: rgba(255,255,255,0.9); text-decoration: none; }
+
+        .footer a {
+            color: white;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+
+        /* ─── Screen Shake Effect ────────── */
+        .shake {
+            animation: shake 0.4s cubic-bezier(.36, .07, .19, .97) both;
+        }
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translate3d(-1px, 0, 0);
+            }
+
+            20%,
+            80% {
+                transform: translate3d(2px, 0, 0);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translate3d(-4px, 0, 0);
+            }
+
+            40%,
+            60% {
+                transform: translate3d(4px, 0, 0);
+            }
+        }
 
         /* ─── Responsive ─────────────────── */
+        @media (max-width: 850px) {
+            .layout-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .side-panel,
+            .main-panel {
+                width: 100%;
+                max-width: 500px;
+            }
+
+            .side-panel {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+
+            .panel {
+                flex: 1;
+                min-width: 250px;
+            }
+        }
+
         @media (max-width: 500px) {
-            .header h1 { font-size: 2rem; }
-            .game-board { gap: 10px; max-width: 320px; }
-            .status-card { min-width: 75px; padding: 8px 12px; }
-            .status-card .value { font-size: 1.4rem; }
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .side-panel {
+                flex-direction: column;
+            }
+
+            .game-board {
+                gap: 10px;
+                padding: 15px;
+                border-radius: 20px;
+            }
+
+            .status-card {
+                min-width: 45%;
+                padding: 10px;
+            }
+
+            .status-card .value {
+                font-size: 1.6rem;
+            }
+
+            .btn {
+                font-size: 1.2rem;
+                padding: 14px 30px;
+            }
+
+            .hole-ground {
+                width: 125%;
+                height: 50%;
+            }
+
+            .hole-front {
+                width: 130%;
+                height: 35%;
+            }
         }
     </style>
 </head>
+
 <body>
-    <!-- Clouds -->
-    <div class="clouds">
+    <div class="sky-elements">
+        <div class="sun"></div>
         <div class="cloud cloud-1"></div>
         <div class="cloud cloud-2"></div>
         <div class="cloud cloud-3"></div>
     </div>
 
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1>🔨 打地鼠</h1>
-            <p class="subtitle">Whack-a-Mole! — 快速点击冒出的地鼠！</p>
-        </div>
-
-        <!-- Connection Status -->
-        <div class="connection-badge">
-            <span class="conn-dot" id="connDot"></span>
-            <span id="connText">连接中...</span>
-        </div>
-
-        <!-- Status Bar -->
-        <div class="status-bar">
-            <div class="status-card">
-                <div class="label">分数</div>
-                <div class="value score-value" id="scoreDisplay">0</div>
+    <div class="layout-wrapper">
+        <!-- Main Game Area -->
+        <main class="main-panel">
+            <div class="header">
+                <h1>🔨 打地鼠大作战</h1>
+                <p class="subtitle">瞄准、点击！小心里面的金地鼠喔 ✨</p>
+                <div class="connection-badge">
+                    <span class="conn-dot" id="connDot"></span>
+                    <span id="connText">连接中...</span>
+                </div>
             </div>
-            <div class="status-card">
-                <div class="label">时间</div>
-                <div class="value time-value" id="timeDisplay">30</div>
+
+            <div class="status-bar">
+                <div class="status-card">
+                    <div class="label">得分</div>
+                    <div class="value score-value" id="scoreDisplay">0</div>
+                </div>
+                <div class="status-card">
+                    <div class="label">连击</div>
+                    <div class="value streak-value" id="streakDisplay">0</div>
+                </div>
+                <div class="status-card">
+                    <div class="label">倒计时</div>
+                    <div class="value time-value" id="timeDisplay">30</div>
+                </div>
             </div>
-            <div class="status-card">
-                <div class="label">连击</div>
-                <div class="value streak-value" id="streakDisplay">0</div>
+
+            <div class="game-board" id="gameBoard"></div>
+
+            <div class="controls">
+                <button class="btn btn-start" id="startBtn" onclick="startGame()">▶ 开始游戏</button>
             </div>
-            <div class="status-card">
-                <div class="label">最高连击</div>
-                <div class="value combo-value" id="maxStreakDisplay">0</div>
+        </main>
+
+        <!-- Sidebar for Stats and Leaderboard -->
+        <aside class="side-panel">
+            <!-- Global Stats -->
+            <div class="panel">
+                <h2>📊 全局统计</h2>
+                <div class="stats-grid" id="statsGrid">
+                    <div class="stat-item">
+                        <div class="label">总对局</div>
+                        <div class="val" id="statGames">-</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="label">全服最高</div>
+                        <div class="val" id="statHigh">-</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="label">玩家总数</div>
+                        <div class="val" id="statPlayers">-</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="label">平均得分</div>
+                        <div class="val" id="statAvg">-</div>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <!-- Game Board -->
-        <div class="game-board" id="gameBoard"></div>
+            <!-- Leaderboard -->
+            <div class="panel">
+                <h2>🏆 排行榜 TOP 10</h2>
+                <ul class="data-list" id="leaderboardList">
+                    <div class="loading-text">加载中...</div>
+                </ul>
+            </div>
 
-        <!-- Controls -->
-        <div class="controls">
-            <button class="btn btn-start" id="startBtn" onclick="startGame()">🎮 开始游戏</button>
-        </div>
+            <!-- Recent Feed -->
+            <div class="panel">
+                <h2>📡 最近游玩</h2>
+                <ul class="data-list" id="recentFeedList">
+                    <div class="loading-text">加载中...</div>
+                </ul>
+            </div>
+        </aside>
+    </div>
 
-        <!-- Leaderboard -->
-        <div class="leaderboard">
-            <h2>🏆 排行榜</h2>
-            <table>
-                <thead>
-                    <tr><th>排名</th><th>玩家</th><th>分数</th></tr>
-                </thead>
-                <tbody id="leaderboardBody">
-                    <tr><td colspan="3" style="text-align:center;color:#b2bec3;">加载中...</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="footer">
-            <p>Made with ❤️ for Dokploy Testing | <a href="/api/health" target="_blank">API Health</a></p>
-        </div>
+    <div class="footer">
+        <p>Made with ❤️ for Dokploy UI Testing | <a href="/api/health" target="_blank">View API Health</a></p>
     </div>
 
     <!-- Game Over Modal -->
     <div class="modal-overlay" id="gameOverModal">
         <div class="modal">
+            <div class="confetti-container" id="confettiContainer"></div>
             <h2>🎉 游戏结束!</h2>
             <div class="final-score" id="finalScore">0</div>
-            <div class="final-message" id="finalMessage">干得漂亮!</div>
-            <input type="text" id="playerName" placeholder="输入你的名字..." maxlength="20">
-            <button class="btn btn-submit" onclick="submitScore()">📤 提交分数</button>
-            <button class="btn btn-skip" onclick="closeModal()">跳过</button>
+            <div class="final-message" id="finalMessage">简直是神乎其技！</div>
+            <input type="text" id="playerName" placeholder="👑 请输入大侠名号..." maxlength="20">
+            <button class="btn btn-submit" onclick="submitScore()">📤 提交成绩榜单</button>
+            <button class="btn btn-skip" onclick="closeModal()">我再练练 (跳过)</button>
         </div>
     </div>
 
@@ -550,6 +1237,9 @@
     <script>
         // ─── Config ─────────────────────────
         const API_BASE = (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL) || '';
+
+        // Use relative path for local dev/testing if API_BASE is empty
+        const makeUrl = (path) => API_BASE ? `${API_BASE}${path}` : path;
 
         // ─── Game State ─────────────────────
         let gameConfig = {
@@ -566,13 +1256,18 @@
             buildBoard();
             checkConnection();
             loadConfig();
-            loadLeaderboard();
+            fetchData();
+            // Data polling every 10s
+            setInterval(fetchData, 10000);
         }
 
         function buildBoard() {
             const board = document.getElementById('gameBoard');
             board.innerHTML = '';
             for (let i = 0; i < 9; i++) {
+                const isFlower1 = Math.random() > 0.5 ? '<div class="flower f1"></div>' : '';
+                const isFlower2 = Math.random() > 0.5 ? '<div class="flower f2"></div>' : '';
+
                 const hole = document.createElement('div');
                 hole.className = 'hole';
                 hole.id = `hole-${i}`;
@@ -580,19 +1275,19 @@
                     <div class="mole" id="mole-${i}">
                         <div class="mole-body">
                             <div class="mole-head">
-                                <div class="mole-eye left"></div>
-                                <div class="mole-eye right"></div>
+                                <div class="mole-ear left"></div><div class="mole-ear right"></div>
+                                <div class="mole-eye left"></div><div class="mole-eye right"></div>
                                 <div class="mole-nose"></div>
-                                <div class="mole-cheek left"></div>
-                                <div class="mole-cheek right"></div>
+                                <div class="mole-cheek left"></div><div class="mole-cheek right"></div>
                                 <div class="mole-mouth"></div>
                             </div>
                         </div>
                     </div>
                     <div class="hole-ground"></div>
-                    <div class="hole-front"></div>
+                    <div class="hole-front">${isFlower1}${isFlower2}</div>
                 `;
-                hole.addEventListener('click', () => whack(i));
+                hole.addEventListener('mousedown', (e) => { e.preventDefault(); whack(i); });
+                hole.addEventListener('touchstart', (e) => { e.preventDefault(); whack(i); }, { passive: false });
                 board.appendChild(hole);
             }
         }
@@ -602,49 +1297,93 @@
             const dot = document.getElementById('connDot');
             const text = document.getElementById('connText');
             try {
-                const res = await fetch(`${API_BASE}/api/health`);
+                const res = await fetch(makeUrl('/api/health'));
                 const data = await res.json();
                 dot.className = 'conn-dot online';
-                text.textContent = `✅ 后端已连接 (${data.service} v${data.version})`;
+                text.textContent = `✅ API 在线 (${data.database === 'connected' ? 'PGSQL' : '内存'}) v${data.version}`;
             } catch (e) {
                 dot.className = 'conn-dot offline';
-                text.textContent = '❌ 后端未连接 — 游戏仍可单机运行';
+                text.textContent = '❌ 后端未连接 (单机预览模式)';
             }
         }
 
         async function loadConfig() {
             try {
-                const res = await fetch(`${API_BASE}/api/game/config`);
-                gameConfig = await res.json();
-                timeLeft = gameConfig.game_duration;
-                document.getElementById('timeDisplay').textContent = timeLeft;
-            } catch (e) { /* use defaults */ }
+                const res = await fetch(makeUrl('/api/game/config'));
+                if (res.ok) {
+                    gameConfig = await res.json();
+                    timeLeft = gameConfig.game_duration;
+                    document.getElementById('timeDisplay').textContent = timeLeft;
+                }
+            } catch (e) { console.warn("Using default config"); }
         }
 
-        async function loadLeaderboard() {
+        async function fetchData() {
+            if (gameActive) return; // Don't interrupt playing with fetch lag
+
+            // 1. Leaderboard
             try {
-                const res = await fetch(`${API_BASE}/api/scores`);
-                const data = await res.json();
-                renderLeaderboard(data.leaderboard);
-            } catch (e) {
-                document.getElementById('leaderboardBody').innerHTML =
-                    '<tr><td colspan="3" style="text-align:center;color:#b2bec3;">暂无数据（后端未连接）</td></tr>';
-            }
+                const res = await fetch(makeUrl('/api/scores'));
+                if (res.ok) {
+                    const data = await res.json();
+                    renderLeaderboard(data.leaderboard);
+                }
+            } catch (e) { document.getElementById('leaderboardList').innerHTML = '<div class="loading-text">无法获取排行榜（API 离线）</div>'; }
+
+            // 2. Stats
+            try {
+                const res = await fetch(makeUrl('/api/stats'));
+                if (res.ok) {
+                    const stats = await res.json();
+                    document.getElementById('statGames').textContent = stats.total_games;
+                    document.getElementById('statHigh').textContent = stats.highest_score;
+                    document.getElementById('statPlayers').textContent = stats.total_players;
+                    document.getElementById('statAvg').textContent = stats.avg_score;
+                }
+            } catch (e) { }
+
+            // 3. Recent Feed
+            try {
+                const res = await fetch(makeUrl('/api/scores/recent'));
+                if (res.ok) {
+                    const data = await res.json();
+                    renderRecentFeed(data.recent);
+                }
+            } catch (e) { document.getElementById('recentFeedList').innerHTML = '<div class="loading-text">无法获取动态</div>'; }
         }
 
         function renderLeaderboard(list) {
-            const medals = ['🥇', '🥈', '🥉'];
-            const tbody = document.getElementById('leaderboardBody');
+            const container = document.getElementById('leaderboardList');
             if (!list || list.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:#b2bec3;">暂无记录</td></tr>';
-                return;
+                container.innerHTML = '<div class="loading-text">暂无记录，快来霸榜！</div>'; return;
             }
-            tbody.innerHTML = list.map((s, i) => `
-                <tr class="rank-${i + 1}">
-                    <td><span class="rank-medal">${medals[i] || (i + 1)}</span></td>
-                    <td>${s.name}</td>
-                    <td><strong>${s.score}</strong></td>
-                </tr>
+            container.innerHTML = list.map((s, i) => {
+                let medalStr = i === 0 ? '👑' : i === 1 ? '🌟' : i === 2 ? '⭐' : (i + 1);
+                return `
+                <li class="data-row rank-${i + 1}">
+                    <div class="rank-badge">${medalStr}</div>
+                    <div class="row-info">
+                        <div class="row-name">${escapeHTML(s.name)}</div>
+                        <div class="row-sub">Lv.${s.level} • ${formatTimeAgo(s.timestamp)}</div>
+                    </div>
+                    <div class="row-score">${s.score} 分</div>
+                </li>`;
+            }).join('');
+        }
+
+        function renderRecentFeed(list) {
+            const container = document.getElementById('recentFeedList');
+            if (!list || list.length === 0) {
+                container.innerHTML = '<div class="loading-text">虚位以待...</div>'; return;
+            }
+            container.innerHTML = list.map(s => `
+                <li class="data-row" style="padding: 10px 14px;">
+                    <div class="row-info">
+                        <div class="row-name" style="font-size:0.95rem;">🕹️ ${escapeHTML(s.name)}</div>
+                        <div class="row-sub">${formatTimeAgo(s.timestamp)}</div>
+                    </div>
+                    <div class="row-score" style="font-size:1rem; color:#f39c12;">${s.score} 分</div>
+                </li>
             `).join('');
         }
 
@@ -655,32 +1394,41 @@
             gameActive = true;
             updateDisplay();
 
+            document.body.classList.remove('shake');
+            document.getElementById('timeDisplay').classList.remove('time-warning');
             document.getElementById('startBtn').disabled = true;
+            document.getElementById('startBtn').textContent = '游戏中...';
 
-            // Clear all moles
-            for (let i = 0; i < 9; i++) {
-                const mole = document.getElementById(`mole-${i}`);
-                mole.classList.remove('show', 'hit');
-                mole.dataset.active = 'false';
-            }
+            clearBoard();
 
-            // Start timer
             gameTimer = setInterval(() => {
                 timeLeft--;
                 document.getElementById('timeDisplay').textContent = timeLeft;
+
+                if (timeLeft === 10) {
+                    document.getElementById('timeDisplay').classList.add('time-warning');
+                }
+
                 if (timeLeft <= 0) endGame();
             }, 1000);
 
-            // Start spawning moles
             spawnMoles();
         }
 
         function spawnMoles() {
             if (!gameActive) return;
-            const delay = randomBetween(gameConfig.mole_interval_min_ms, gameConfig.mole_interval_max_ms);
+            let currentDelay = gameConfig.mole_interval_max_ms - (maxStreak * 20); // getting slightly faster
+            currentDelay = Math.max(gameConfig.mole_interval_min_ms, currentDelay);
+
+            const delay = randomBetween(currentDelay - 100, currentDelay + 100);
+
             const timer = setTimeout(() => {
                 if (!gameActive) return;
-                showRandomMole();
+
+                // Spawn 1 or 2 moles
+                const count = (streak > 5 && Math.random() > 0.6) ? 2 : 1;
+                for (let i = 0; i < count; i++) showRandomMole();
+
                 spawnMoles();
             }, delay);
             moleTimers.push(timer);
@@ -689,21 +1437,28 @@
         function showRandomMole() {
             const available = [];
             for (let i = 0; i < 9; i++) {
-                const mole = document.getElementById(`mole-${i}`);
-                if (mole.dataset.active !== 'true') available.push(i);
+                const m = document.getElementById(`mole-${i}`);
+                if (m.dataset.active !== 'true') available.push(i);
             }
             if (available.length === 0) return;
 
             const idx = available[Math.floor(Math.random() * available.length)];
             const mole = document.getElementById(`mole-${idx}`);
-            mole.classList.remove('hit');
-            mole.classList.add('show');
-            mole.dataset.active = 'true';
 
-            const showTime = randomBetween(gameConfig.mole_show_min_ms, gameConfig.mole_show_max_ms);
+            // 15% chance for a golden mole
+            const isGolden = Math.random() < 0.15;
+
+            mole.className = `mole show ${isGolden ? 'golden' : ''}`;
+            mole.dataset.active = 'true';
+            mole.dataset.golden = isGolden ? 'true' : 'false';
+
+            let showTime = randomBetween(gameConfig.mole_show_min_ms, gameConfig.mole_show_max_ms);
+            if (isGolden) showTime *= 0.7; // Golden is faster
+            if (streak > 5) showTime *= 0.9;
+
             const timer = setTimeout(() => {
                 if (mole.dataset.active === 'true') {
-                    mole.classList.remove('show');
+                    mole.classList.remove('show', 'golden');
                     mole.dataset.active = 'false';
                     if (gameActive) { streak = 0; updateDisplay(); }
                 }
@@ -717,24 +1472,35 @@
             if (mole.dataset.active !== 'true') return;
 
             mole.dataset.active = 'false';
+            mole.classList.remove('show');
             mole.classList.add('hit');
 
-            // Score
+            const isGolden = mole.dataset.golden === 'true';
+
+            // Score logic
             streak++;
             if (streak > maxStreak) maxStreak = streak;
-            let points = gameConfig.points_per_hit;
-            if (streak >= gameConfig.streak_threshold) {
+
+            let points = isGolden ? 50 : gameConfig.points_per_hit;
+            if (streak >= gameConfig.streak_threshold && !isGolden) {
                 points += gameConfig.bonus_per_streak * (streak - gameConfig.streak_threshold + 1);
             }
+
             score += points;
             updateDisplay();
 
-            // Effects
-            showHitEffect(idx, `+${points}`);
-            showStars(idx);
+            // Screen Shake for big combos
+            if (streak > 0 && streak % 5 === 0) {
+                document.body.classList.add('shake');
+                setTimeout(() => document.body.classList.remove('shake'), 400);
+            }
+
+            // Visual Effects
+            showHitEffect(idx, `+${points}`, isGolden);
+            showStars(idx, isGolden);
 
             setTimeout(() => {
-                mole.classList.remove('show', 'hit');
+                mole.classList.remove('hit', 'golden');
             }, 300);
         }
 
@@ -744,88 +1510,166 @@
             moleTimers.forEach(t => clearTimeout(t));
             moleTimers = [];
 
-            // Hide all moles
+            clearBoard();
+
+            document.getElementById('timeDisplay').classList.remove('time-warning');
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('startBtn').textContent = '▶ 再次挑战';
+
+            document.getElementById('finalScore').textContent = score;
+
+            let msg = "手速还有待提高哦！";
+            if (score > 100) msg = "👍 不错哦，反应很快！";
+            if (score > 300) msg = "🔥 太厉害了，连击大师！";
+            if (score > 600) msg = "👑 神乎其技！你就是地鼠克星！";
+            document.getElementById('finalMessage').textContent = msg;
+
+            const modal = document.getElementById('gameOverModal');
+            modal.classList.add('show');
+
+            if (score > 100) triggerConfetti();
+        }
+
+        function clearBoard() {
             for (let i = 0; i < 9; i++) {
                 const mole = document.getElementById(`mole-${i}`);
-                mole.classList.remove('show', 'hit');
+                mole.className = 'mole';
                 mole.dataset.active = 'false';
             }
-
-            document.getElementById('startBtn').disabled = false;
-            document.getElementById('finalScore').textContent = score;
-            document.getElementById('finalMessage').textContent =
-                score >= 200 ? '🏆 地鼠终结者！' :
-                score >= 100 ? '🔥 太厉害了！' :
-                score >= 50 ? '👍 继续加油！' : '😊 下次会更好！';
-            document.getElementById('gameOverModal').classList.add('show');
         }
 
         async function submitScore() {
-            const name = document.getElementById('playerName').value.trim() || '匿名玩家';
+            const btn = document.querySelector('.btn-submit');
+            const nameInput = document.getElementById('playerName');
+            const name = nameInput.value.trim() || '神秘大侠';
+
+            btn.disabled = true;
+            btn.textContent = '提交中...';
+
             try {
-                const res = await fetch(`${API_BASE}/api/scores`, {
+                const res = await fetch(makeUrl('/api/scores'), {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, score, level: Math.ceil(score / 50) }),
+                    body: JSON.stringify({ name, score, level: Math.ceil(score / 50) || 1 }),
                 });
-                const data = await res.json();
-                alert(`${data.message}\n你的排名: #${data.rank} / ${data.total_players}`);
+
+                if (res.ok) {
+                    const data = await res.json();
+                    alert(`✅ ${data.message}\n你的当前排名: #${data.rank} (击败了 ${data.total_players - data.rank} 名玩家)`);
+                    closeModal();
+                    fetchData(); // refresh boards instantly
+                } else {
+                    throw new Error("Server error");
+                }
             } catch (e) {
-                alert('提交失败，后端未连接');
+                alert('⚠️ 提交异常 (预览模式无法保存分数)');
+                closeModal();
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '📤 提交成绩榜单';
             }
-            closeModal();
-            loadLeaderboard();
         }
 
         function closeModal() {
             document.getElementById('gameOverModal').classList.remove('show');
             document.getElementById('playerName').value = '';
+            document.getElementById('confettiContainer').style.display = 'none';
+            document.getElementById('confettiContainer').innerHTML = '';
         }
 
-        // ─── Helpers ────────────────────────
+        // ─── Visual Helpers ─────────────────
         function updateDisplay() {
             document.getElementById('scoreDisplay').textContent = score;
             document.getElementById('timeDisplay').textContent = timeLeft;
             document.getElementById('streakDisplay').textContent = streak;
-            document.getElementById('maxStreakDisplay').textContent = maxStreak;
+
+            // Highlight streak if it's high
+            const streakEl = document.getElementById('streakDisplay');
+            if (streak >= 5) {
+                streakEl.style.color = '#ff4757';
+                streakEl.style.scale = '1.2';
+            } else {
+                streakEl.style.color = 'var(--purple)';
+                streakEl.style.scale = '1';
+            }
         }
 
-        function showHitEffect(idx, text) {
+        function showHitEffect(idx, text, isGolden) {
             const hole = document.getElementById(`hole-${idx}`);
             const el = document.createElement('div');
-            el.className = 'hit-effect';
+            el.className = `hit-effect ${isGolden ? 'golden-hit' : ''}`;
             el.textContent = text;
+
+            // Random offset
+            const offsetX = randomBetween(-20, 20);
+            el.style.left = `calc(50% + ${offsetX}px)`;
+
             hole.appendChild(el);
             setTimeout(() => el.remove(), 800);
         }
 
-        function showStars(idx) {
+        function showStars(idx, isGolden) {
             const hole = document.getElementById(`hole-${idx}`);
-            const emojis = ['⭐', '✨', '💥', '🌟'];
-            for (let i = 0; i < 4; i++) {
+            const emojis = isGolden ? ['💰', '💎', '✨', '⚡'] : ['💥', '💨', '💢', '🌟'];
+            const count = isGolden ? 6 : 4;
+
+            const burst = document.createElement('div');
+            burst.className = 'star-burst';
+            burst.style.left = '45%';
+            burst.style.top = '30%';
+
+            for (let i = 0; i < count; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
-                star.textContent = emojis[i];
-                const angle = (i / 4) * Math.PI * 2;
-                star.style.setProperty('--tx', `${Math.cos(angle) * 40}px`);
-                star.style.setProperty('--ty', `${Math.sin(angle) * 40}px`);
-                star.style.left = '45%';
-                star.style.top = '30%';
-
-                const burst = document.createElement('div');
-                burst.className = 'star-burst';
+                star.textContent = emojis[i % emojis.length];
+                const angle = (i / count) * Math.PI * 2 + Math.random();
+                const dist = randomBetween(40, 80);
+                star.style.setProperty('--tx', `${Math.cos(angle) * dist}px`);
+                star.style.setProperty('--ty', `${Math.sin(angle) * dist}px`);
                 burst.appendChild(star);
-                hole.appendChild(burst);
-                setTimeout(() => burst.remove(), 600);
+            }
+
+            hole.appendChild(burst);
+            setTimeout(() => burst.remove(), 600);
+        }
+
+        function triggerConfetti() {
+            const container = document.getElementById('confettiContainer');
+            container.style.display = 'block';
+            container.innerHTML = '';
+            const colors = ['#ff4757', '#2ed573', '#1e90ff', '#ffa502', '#a855f7'];
+
+            for (let i = 0; i < 50; i++) {
+                const conf = document.createElement('div');
+                conf.className = 'confetti';
+                conf.style.left = `${Math.random() * 100}%`;
+                conf.style.background = colors[Math.floor(Math.random() * colors.length)];
+                conf.style.animationDuration = `${Math.random() * 2 + 1}s`;
+                conf.style.animationDelay = `${Math.random() * 0.5}s`;
+                // shapes
+                if (Math.random() > 0.5) conf.style.borderRadius = '50%';
+                container.appendChild(conf);
             }
         }
 
-        function randomBetween(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
+        // Utils
+        function randomBetween(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag]));
+        }
+        function formatTimeAgo(isoStr) {
+            const ms = new Date() - new Date(isoStr);
+            const m = Math.floor(ms / 60000);
+            if (m < 1) return '刚刚';
+            if (m < 60) return `${m}分钟前`;
+            const h = Math.floor(m / 60);
+            if (h < 24) return `${h}小时前`;
+            return `${Math.floor(h / 24)}天前`;
         }
 
         // ─── Start ─────────────────────────
         init();
     </script>
 </body>
+
 </html>
